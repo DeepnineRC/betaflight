@@ -58,7 +58,7 @@ typedef enum {
 
 typedef struct osdConfig_s {
     uint16_t item_pos[OSD_ITEM_COUNT];
-
+    uint8_t item_type[OSD_ITEM_COUNT];
     // Alarms
     uint8_t rssi_alarm;
     uint16_t cap_alarm;

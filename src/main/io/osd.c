@@ -193,8 +193,29 @@ static void osdDrawSingleElement(uint8_t item)
 
         case OSD_CURRENT_DRAW:
         {
-            buff[0] = SYM_AMP;
-            sprintf(buff + 1, "%d.%02d", abs(amperage) / 100, abs(amperage) % 100);
+            switch(osdConfig()->item_type[OSD_CURRENT_DRAW])
+            {
+			case 0:
+            	buff[0] = SYM_AMP;
+            	sprintf(buff + 1, "%d.%02d", abs(amperage) / 100, abs(amperage) % 100);
+            break;
+            case 1:
+				buff[0] = SYM_AMP;
+				if (amperage < 100)
+				{
+            		sprintf(buff + 1, "0.%02d", abs(amperage) % 100);
+				}
+				else if(amperage >=100 && amperage < 1000)
+				{
+					sprintf(buff + 1, "%d.%01d", abs(amperage) / 100, abs(amperage) % 100);
+				}
+				else
+				{
+					sprintf(buff + 1, "%d", abs(amperage) / 100);
+				}
+            break;
+			}
+
             break;
         }
 
@@ -495,6 +516,28 @@ void pgResetFn_osdConfig(osdConfig_t *osdProfile)
     osdProfile->item_pos[OSD_POWER] = OSD_POS(15, 1);
     osdProfile->item_pos[OSD_PIDRATE_PROFILE] = OSD_POS(2, 13);
     osdProfile->item_pos[OSD_MAIN_BATT_WARNING] = OSD_POS(8, 6);
+
+    osdProfile->item_type[OSD_RSSI_VALUE] = 0;
+    osdProfile->item_type[OSD_MAIN_BATT_VOLTAGE] = 0;
+    osdProfile->item_type[OSD_ARTIFICIAL_HORIZON] = 0;
+    osdProfile->item_type[OSD_HORIZON_SIDEBARS] = 0;
+    osdProfile->item_type[OSD_ONTIME] = 0;
+    osdProfile->item_type[OSD_FLYTIME] = 0;
+    osdProfile->item_type[OSD_FLYMODE] = 0;
+    osdProfile->item_type[OSD_CRAFT_NAME] = 0;
+    osdProfile->item_type[OSD_THROTTLE_POS] = 0;
+    osdProfile->item_type[OSD_VTX_CHANNEL] = 0;
+    osdProfile->item_type[OSD_CURRENT_DRAW] = 0;
+    osdProfile->item_type[OSD_MAH_DRAWN] = 0;
+    osdProfile->item_type[OSD_GPS_SPEED] = 0;
+    osdProfile->item_type[OSD_GPS_SATS] = 0;
+    osdProfile->item_type[OSD_ALTITUDE] = 0;
+    osdProfile->item_type[OSD_ROLL_PIDS] = 0;
+    osdProfile->item_type[OSD_PITCH_PIDS] = 0;
+    osdProfile->item_type[OSD_YAW_PIDS] = 0;
+    osdProfile->item_type[OSD_POWER] = 0;
+    osdProfile->item_type[OSD_PIDRATE_PROFILE] = 0;
+    osdProfile->item_type[OSD_MAIN_BATT_WARNING] = 0;
 
     osdProfile->rssi_alarm = 20;
     osdProfile->cap_alarm = 2200;
